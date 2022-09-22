@@ -8,7 +8,8 @@ class CreateTransactionForm extends AsyncForm {
    * метод renderAccountsList
    * */
   constructor(element) {
-    super(element)
+    super(element);
+    this.renderAccountsList()
   }
 
   /**
@@ -16,7 +17,7 @@ class CreateTransactionForm extends AsyncForm {
    * Обновляет в форме всплывающего окна выпадающий список
    * */
   renderAccountsList() {
-
+    Account.list();
   }
 
   /**
