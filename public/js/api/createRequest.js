@@ -9,8 +9,15 @@ const createRequest = (options = {}) => {
   if (options.method === 'GET') {
     let urlAddress;
     if (options.data) {
-      let urlData = Object.entries(options.data).map(arr => `${arr[0]}=${arr[1]}`).join('&');
-      urlAddress = `${options.url}?${urlData}`;
+      let urlData;
+      if (typeof options.data != 'string') {
+        urlData = Object.entries(options.data).map(arr => `${arr[0]}=${arr[1]}`).join('&');
+        urlAddress = `${options.url}?${urlData}`;
+      } else {
+        urlData = options.data;
+        urlAddress = `${options.url}/${urlData}`;
+      }
+      
     } else {
       urlAddress = options.url;
     }
@@ -32,7 +39,10 @@ const createRequest = (options = {}) => {
 
   if (options.method !== 'GET') {
     let formData = new FormData();
-    Object.entries(options.data).forEach(arr => {formData.append(arr[0], arr[1])});    
+    Object.entries(options.data).forEach(pair => {
+      formData.append(pair[0], pair[1]);
+    });
+    
     try {
       xhr.open(options.method, options.url);
       xhr.onreadystatechange = () => {
